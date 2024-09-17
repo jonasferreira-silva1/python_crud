@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training</title>
+</head>
+<body>
+    <h1 style="text-align: center;">CRUD Diniz</h1>
+    <div class="row">
+        <div class="col-xs-12">
+            <a href="/add">Add person</a>
+        </div>
+        <div class="col-xs-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>name</th>
+                        <th>email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in persons %}
+                    <tr>
+                        <td>{{ person.name }}</td>
+                        <td>{{ person.email }}</td>
+                        <td>
+                            <a href="/edit/{{person.id}}">Edit</a>
+                            <a href="/delete/{{person.id}}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
