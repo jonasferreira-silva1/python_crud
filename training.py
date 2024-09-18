@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request, jsonify
+from flask import Flask, render_template, Response, request, jsonify, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import mysql.connector
 import json
@@ -15,40 +15,44 @@ class Person(db.Model):
     name = db.Column(db.String(50))
     email = db.Column(db.String(100))
     
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+    
     def to_json(self):
         return {"id": self.id, "name": self.name, "email": self.email}
     
 with app.app_context():
     db.create_all()
     
-@app.route("/users", methods=["GET"])
+@app.route("/persons", methods=["GET"])
 def select_users():
     person_objects = Person.query.all()
     persons_json = [persons.to_json() for persons in person_objects]
     
     return generate_response(200, "persons", persons_json, "ok")
 
-@app.route("/users/<id>", methods=["GET"])
+@app.route("/persons/<id>", methods=["GET"])
 def select_user(id):
     person_object = Person.query.filter_by(id=id).first()
     person_json = person_object.to_json()
     
     return generate_response(200, "persons", person_json)
 
-@app.route("/users", methods=["POST"])
+@app.route("/add", methods=["GET", "POST"])
 def create():
-    body = request.get_json()
-    # Validar se os parametros irão vim corretamente (com try catch ou etc)
-    try:
-        person = Person(name=body["name"], email=body["email"])
-        db.session.add(person)
-        db.session.commit()
-        return generate_response(201, "person", person.to_json(), "Created")
-    except Exception as e:
-        print(e)
-        return generate_response(400, "person", {}, "Error to created")
+    if request.method == "POST":
+        try:
+            newPerson = Person(request.form['name'], request.form['email'])
+            db.session.add(newPerson)
+            db.session.commit()
+            return redirect(url_for('index'))
+        except Exception as e:
+            print(e)
+            return generate_response(400, "person", {}, "Error to created")
+    return render_template('add.html')
     
-@app.route("/users/<id>", methods=["PUT"])
+@app.route("/persons/<id>", methods=["PUT"])
 def update(id):
     person_object = Person.query.filter_by(id=id).first()
     body = request.get_json()
@@ -65,7 +69,7 @@ def update(id):
         print(e)
         return generate_response(400, "person", {}, "Error to update")
     
-@app.route("/users/<id>", methods=["DELETE"])
+@app.route("/persons/<id>", methods=["DELETE"])
 def delete(id):
     person_object = Person.query.filter_by(id=id).first()
     
@@ -86,7 +90,7 @@ def index():
 def about():
     return render_template("about.html")
 
-@app.route("/users/<user_name>")
+@app.route("/persons/<user_name>")
 def users(user_name):
     return render_template("users.html", user_name=user_name)
 
