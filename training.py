@@ -69,14 +69,13 @@ def update(id):
         print(e)
         return generate_response(400, "person", {}, "Error to update")
     
-@app.route("/persons/<id>", methods=["DELETE"])
+@app.route("/delete/<id>")
 def delete(id):
-    person_object = Person.query.filter_by(id=id).first()
-    
+    person_object = Person.query.get(id)
     try:
         db.session.delete(person_object)
         db.session.commit()
-        return generate_response(200, "person", person_object.to_json(), "Deleted")
+        return redirect(url_for('index'))
     except Exception as e:
         print(e)
         return generate_response(400, "person", {}, "Error to delete")
