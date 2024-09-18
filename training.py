@@ -52,22 +52,21 @@ def create():
             return generate_response(400, "person", {}, "Error to created")
     return render_template('add.html')
     
-@app.route("/persons/<id>", methods=["PUT"])
+@app.route("/edit/<id>", methods=["GET", 'POST'])
 def update(id):
-    person_object = Person.query.filter_by(id=id).first()
-    body = request.get_json()
-    try:
-        if('name' in body): # se o cara so for alterar o nome
-            person_object.name = body['name']
-        if('email' in body): # se so for o email
-            person_object.email = body['email']
-            
-        db.session.add(person_object)
-        db.session.commit()
-        return generate_response(200, "person", person_object.to_json(), "Updated")
-    except Exception as e:
-        print(e)
-        return generate_response(400, "person", {}, "Error to update")
+    person = Person.query.get(id)
+    if request.method == "POST":
+        # pegar os dados que vinheram da requisição
+        try:
+            person.name = request.form['name']
+            person.email = request.form['email']
+            db.session.add(person)
+            db.session.commit()
+            return redirect(url_for('index'))
+        except Exception as e:
+            print(e)
+            return generate_response(400, "person", {}, "Error to update")
+    return render_template('edit.html', person=person)
     
 @app.route("/delete/<id>")
 def delete(id):
