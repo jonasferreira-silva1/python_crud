@@ -12,15 +12,15 @@ db = SQLAlchemy(app)
 
 class Person(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    email = db.Column(db.String(100))
+    nome = db.Column(db.String(50))
+    preco = db.Column(db.Float)
     
-    def __init__(self, name, email):
-        self.name = name
-        self.email = email
+    def __init__(self, nome, preco):
+        self.nome = nome
+        self.preco = preco
     
     def to_json(self):
-        return {"id": self.id, "name": self.name, "email": self.email}
+        return {"id": self.id, "nome": self.nome, "preco": float(self.preco)}
     
 with app.app_context():
     db.create_all()
@@ -43,7 +43,7 @@ def select_user(id):
 def create():
     if request.method == "POST":
         try:
-            newPerson = Person(request.form['name'], request.form['email'])
+            newPerson = Person(request.form['nome'], request.form['preco'])
             db.session.add(newPerson)
             db.session.commit()
             return redirect(url_for('index'))
@@ -58,8 +58,8 @@ def update(id):
     if request.method == "POST":
         # pegar os dados que vinheram da requisição
         try:
-            person.name = request.form['name']
-            person.email = request.form['email']
+            person.nome = request.form['nome']
+            person.preco = request.form['preco']
             db.session.add(person)
             db.session.commit()
             return redirect(url_for('index'))
@@ -88,13 +88,13 @@ def index():
 def about():
     return render_template("about.html")
 
-@app.route("/persons/<user_name>")
-def users(user_name):
-    return render_template("users.html", user_name=user_name)
+@app.route("/persons/<user_nome>")
+def users(user_nome):
+    return render_template("users.html", user_nome=user_nome)
 
-def generate_response(status, content_name, content, msg=False):
+def generate_response(status, content_nome, content, msg=False):
     body = {}
-    body[content_name] = content
+    body[content_nome] = content
     
     if(msg):
         body["message"] = msg
@@ -102,4 +102,4 @@ def generate_response(status, content_name, content, msg=False):
     return Response(json.dumps(body), status=status, mimetype="application/json")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)

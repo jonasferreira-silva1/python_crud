@@ -4,22 +4,22 @@
     <body>
         <div class="row">
             <div class="col-xs-12">
-                <a href="/add">Add person</a>
+                <a href="/add">Add product</a>
             </div>
             <div class="col-xs-12">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>name</th>
-                            <th>email</th>
+                            <th>Nome</th>
+                            <th>Price</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for person in persons %}
                         <tr>
-                            <td>{{ person.name }}</td>
-                            <td>{{ person.email }}</td>
+                            <td>{{ person.nome }}</td>
+                            <td>{{ "%.2f"|format(person.preco) }}</td>
                             <td>
                                 <a href="/edit/{{person.id}}">Edit</a>
                                 <a href="/delete/{{person.id}}">Delete</a>

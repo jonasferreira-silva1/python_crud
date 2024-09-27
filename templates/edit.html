@@ -4,10 +4,10 @@
         <form action="/edit/{{ person.id }}" method="POST" class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <input type="text" name="name" id="name" placeholder="name" class="form-control" value="{{ person.name }}">
+                    <input type="text" name="nome" id="nome" placeholder="nome" class="form-control" value="{{ person.nome }}">
                 </div>
-                <div class="col-md-6">
-                    <input type="text" name="email" id="email" placeholder="email" class="form-control" value="{{ person.email }}">
+                <div class="col-md-4">
+                    <input type="text" name="preco" id="preco" placeholder="Price" class="form-control" value="{{ person.preco }}"> <!-- Campo para preço -->
                 </div>
             </div>
             <br>
