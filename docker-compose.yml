@@ -4,7 +4,7 @@ services:
   db:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: jonas1385
+      MYSQL_ROOT_PASSWORD: PASSWORD
       MYSQL_DATABASE: training
     ports:
       - "3307:3306"
