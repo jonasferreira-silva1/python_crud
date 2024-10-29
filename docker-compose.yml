@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: jonas1385
+      MYSQL_DATABASE: training
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  app:
+    build: .
+    ports:
+      - "80:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SQLALCHEMY_DATABASE_URI: mysql://root:jonas1385@db:3306/training
