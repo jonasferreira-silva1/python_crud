@@ -10,11 +10,25 @@
     />
   </head>
   <body>
-    <h1 style="text-align: center">CRUD Jonas</h1>
-
-    {% block content %}
-    <!-- mas cada pagina ira ter esse trecho da pagina base -->
-    {% endblock %}
-    <!-- aqui nos delimitamos pois podera ter um conteudo diferente -->
+    <div class="container">
+      <h1 class="text-center">MERCADO</h1>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/">Home</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/add">Add Product</a></li>
+          </ul>
+        </div>
+      </nav>
+      {% block content %}
+      <!-- Content específico da página -->
+      {% endblock %}
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   </body>
 </html>

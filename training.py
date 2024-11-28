@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 # Use a variável de ambiente ou uma URI de conexão padrão para o desenvolvimento local
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
-    'SQLALCHEMY_DATABASE_URI', 'mysql://root:@localhost:3306/training')
+    'SQLALCHEMY_DATABASE_URI', 'mysql://root:jonas1385@localhost:3306/training')
 app.app_context()
 db = SQLAlchemy(app)
 

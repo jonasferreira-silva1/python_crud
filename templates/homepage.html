@@ -1,33 +1,30 @@
 {% extends 'base.html' %}
-
-    {% block content %}
-    <body>
-        <div class="row">
-            <div class="col-xs-12">
-                <a href="/add">Add product</a>
-            </div>
-            <div class="col-xs-12">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Price</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for person in persons %}
-                        <tr>
-                            <td>{{ person.nome }}</td>
-                            <td>{{ "%.2f"|format(person.preco) }}</td>
-                            <td>
-                                <a href="/edit/{{person.id}}">Edit</a>
-                                <a href="/delete/{{person.id}}">Delete</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    {% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Lista de Produtos</h2>
+        <a href="/add" class="btn btn-primary">Adicionar Produto</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Preço</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for person in persons %}
+                <tr>
+                    <td>{{ person.nome }}</td>
+                    <td>{{ "%.2f"|format(person.preco) }}</td>
+                    <td>
+                        <a href="/edit/{{person.id}}" class="btn btn-warning">Editar</a>
+                        <a href="/delete/{{person.id}}" class="btn btn-danger">Deletar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
